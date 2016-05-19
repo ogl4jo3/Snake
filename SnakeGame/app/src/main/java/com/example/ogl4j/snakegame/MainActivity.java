@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
     private ArrayAdapter<String> listAdapter;
     private Context mContext;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
 
         mContext = this.getApplicationContext();
         spinner = (Spinner) findViewById(R.id.spinner);
-
         listAdapter = new ArrayAdapter<>(this, R.layout.myspinner, list);
         listAdapter.setDropDownViewResource(R.layout.myspinner);
         spinner.setAdapter(listAdapter);

@@ -52,10 +52,10 @@
 
         <Spinner
             android:id="@+id/spinner"
-            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:gravity="center" />
     </LinearLayout>
 
     <Button
@@ -71,17 +71,18 @@
         android:textAllCaps="false"
         android:textSize="@dimen/main_size" />
 
-    <Button
-        android:id="@+id/scoreButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="@dimen/button_horizontal_margin"
-        android:layout_marginRight="@dimen/button_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:gravity="center"
-        android:text="@string/scoreB"
-        android:textAllCaps="false"
-        android:textSize="@dimen/main_size" />
+    <!--<Button-->
+        <!--android:id="@+id/scoreButton"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:layout_marginLeft="@dimen/button_horizontal_margin"-->
+        <!--android:layout_marginRight="@dimen/button_horizontal_margin"-->
+        <!--android:layout_marginTop="@dimen/activity_vertical_margin"-->
+        <!--android:gravity="center"-->
+        <!--android:text="@string/scoreB"-->
+        <!--android:textAllCaps="false"-->
+        <!--android:textSize="@dimen/main_size" />-->
+
 
 </LinearLayout>

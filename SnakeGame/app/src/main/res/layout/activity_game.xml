@@ -8,29 +8,13 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".SnakeActivity">
 
-    <TextView
-        android:id="@+id/best"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:text="@string/best"
-        android:textSize="@dimen/score_size" />
-
-    <TextView
-        android:id="@+id/score"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:text="@string/score"
-        android:textSize="@dimen/score_size" />
-
 
     <view
+        android:background="@drawable/test"
         android:id="@+id/snakeView"
         class="com.example.ogl4j.snakegame.SnakeView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/view_top_margin" />
+        android:layout_height="match_parent" />
 
 
 </RelativeLayout>

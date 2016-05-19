@@ -25,6 +25,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -38,10 +39,10 @@ public class SnakeView extends SurfaceView implements
         SurfaceHolder.Callback {
 
     private Context mContext;
-    private static final String TAG = "CannonView"; // for logging errors
+    private static final String TAG = "CannonView";
 
-    private CannonThread cannonThread; // controls the game loop
-    private Activity activity; // to display Game Over dialog in GUI thread
+    private CannonThread cannonThread;
+    private Activity activity;
     private boolean dialogIsDisplayed = false;
     private Paint snakePaint;
     private Paint xPaint;
@@ -53,29 +54,30 @@ public class SnakeView extends SurfaceView implements
     private int startx;
     private int starty;
     private int score = 0;
+    private int snakelevel;
     private static int nowdirection;
     private static int snakeUp = 0;
     private static int snakeDown = 1;
     private static int snakeLeft = 2;
     private static int snakeRight = 3;
 
-    private SharedPreferences bestscore;
-
     private Point targets;
     private Paint targetsPaint;
     private Paint backgroundPaint;
+    private Paint textPaint;
 
     private Bitmap apple;
     private Paint applePaint;
     private Bitmap newbm;
 
-    // variables for the game loop and tracking statistics
+    private SharedPreferences bestscore;
+    private int bestint;
 
     private boolean snakeover;
-    private boolean gameOver; // is the game over?
-    private double timeLeft; // time remaining in seconds
-    private int shotsFired; // shots the user has fired
-    private double totalElapsedTime; // elapsed seconds
+    private boolean gameOver;
+    private double timeLeft;
+    //private int shotsFired;
+    private double totalElapsedTime;
     private int screenWidth;
     private int screenHeight;
     ArrayList<Point> arrayList = new ArrayList<>();
@@ -107,14 +109,15 @@ public class SnakeView extends SurfaceView implements
     }
 
     private void init(Context context) {
-        activity = (Activity) context; // store reference to MainActivity
+        activity = (Activity) context;
         myGestureListener = new MyGestureListener(context);
         mContext = context;
-        // register SurfaceHolder.Callback listener
         getHolder().addCallback(this);
 
         Resources res = getResources();
-        apple = BitmapFactory.decodeResource(res, R.drawable.snake);
+
+        bestint = Memory.getInt(mContext, "BEST", 0);
+        apple = BitmapFactory.decodeResource(res, R.drawable.apple);
         int width = apple.getWidth();
         int height = apple.getHeight();
         int newWidth = SIDE_LENGTH;
@@ -133,57 +136,67 @@ public class SnakeView extends SurfaceView implements
         targets = new Point();
         targetsPaint = new Paint();
         backgroundPaint = new Paint();
+        textPaint = new Paint();
 
         if (mContext instanceof SnakeActivity) {
             switch (((SnakeActivity) mContext).level) {
                 case "2":
                     speed = 200;
+                    snakelevel = 200;
                     break;
                 case "3":
                     speed = 150;
+                    snakelevel = 150;
                     break;
                 case "4":
                     speed = 100;
+                    snakelevel = 100;
                     break;
                 case "5":
                     speed = 50;
+                    snakelevel = 50;
                     break;
 
                 default:
                     speed = 250;
+                    snakelevel = 250;
             }
         }
     }
 
-    // called by surfaceChanged when the size of the SurfaceView changes,
-    // such as when it's first added to the View hierarchy
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
 
-        screenWidth = w; // store CannonView's width
-        screenHeight = h; // store CannonView's height
+        screenWidth = w;
+        screenHeight = h;
         width_count = w / SIDE_LENGTH;
         height_count = h / SIDE_LENGTH;
-        backgroundPaint.setColor(Color.WHITE); // set background color
+        backgroundPaint.setColor(Color.WHITE);
         snakePaint.setColor(Color.BLACK);
         xPaint.setColor(Color.YELLOW);
         targetsPaint.setColor(Color.RED);
+        textPaint.setTextSize(50);
 
         width_offset = (screenWidth - width_count * SIDE_LENGTH) / 2;
         height_offset = (screenHeight - height_count * SIDE_LENGTH) / 2;
 
-        newGame(); // set up and start a new game
-    } // end method onSizeChanged
+        if (width_offset != 0 || height_offset != 0)
+            newGame();
 
-    // reset all the screen elements and start a new game
+        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) getLayoutParams();
+        lp.setMargins((int) width_offset, (int) height_offset, (int) width_offset, (int) height_offset);
+        setLayoutParams(lp);
+    }
+
     public void newGame() {
 
         time = 0;
-        score = 0; // no target pieces have been hit
-        timeLeft = 20; // start the countdown at 10 seconds
-        shotsFired = 0; // set the initial number of shots fired
-        totalElapsedTime = 0.0; // set the time elapsed to zero
+        score = 0;
+        timeLeft = 10;
+        speed = snakelevel;
+        //shotsFired = 0;
+        totalElapsedTime = 0.0;
         nowdirection = snakeUp;
         snakeover = false;
         targets = new Point(new Random().nextInt(width_count) * SIDE_LENGTH,
@@ -198,27 +211,25 @@ public class SnakeView extends SurfaceView implements
         arrayList.add(new Point(startx, starty + 4 * SIDE_LENGTH));
 
 
-        if (gameOver) // starting a new game after the last game ended
-        {
+        if (gameOver) {
             gameOver = false;
-            cannonThread = new CannonThread(getHolder()); // create thread
-            cannonThread.start(); // start the game loop thread
+            cannonThread = new CannonThread(getHolder());
+            cannonThread.start();
         }
-    } // end method newGame
+    }
 
-    // called repeatedly by the CannonThread to update game elements
     private void updatePositions(double elapsedTimeMS) {
 
-        double interval = elapsedTimeMS / 1000.0; // convert to seconds
+        double interval = elapsedTimeMS / 1000.0;
 
-        timeLeft -= interval; // subtract from time left
+        timeLeft -= interval;
 
         if (screenWidth - arrayList.get(0).x < SIDE_LENGTH || screenHeight - arrayList.get(0).y < SIDE_LENGTH ||
                 arrayList.get(0).x < 0 || arrayList.get(0).y < 0) {
             snakeover = true;
         }
 
-        if ((Math.abs(timeLeft - time) * 1000 > speed || time == 0) && !snakeover ) {
+        if ((Math.abs(timeLeft - time) * 1000 > speed || time == 0) && !snakeover) {
 
             time = timeLeft;
             for (int i = arrayList.size() - 1; i > 0; i--) {
@@ -245,9 +256,9 @@ public class SnakeView extends SurfaceView implements
 
         if (snakeover) {
             timeLeft = 0.0;
-            gameOver = true; // the game is over
-            cannonThread.setRunning(false); // terminate thread
-            showGameOverDialog(R.string.lose); // show the losing dialog
+            gameOver = true;
+            cannonThread.setRunning(false);
+            showGameOverDialog(R.string.lose);
         }
 
         if (arrayList.contains(targets)) {
@@ -267,175 +278,155 @@ public class SnakeView extends SurfaceView implements
             targets = new Point(new Random().nextInt(width_count) * SIDE_LENGTH,
                     new Random().nextInt(height_count) * SIDE_LENGTH);
             score++;
+            if(speed>=50)
+                speed = speed - 20;
+            if (score > bestint) {
+                bestint = score;
+            }
         }
-    } // end method updatePositions
+    }
 
-    // draws the game to the given Canvas
+
     public void drawGameElements(Canvas canvas) {
         if (canvas == null)
             return;
-        // clear the background
-        canvas.drawRect(0, 0, screenWidth, screenHeight,
-                snakePaint);
-        canvas.drawRect(width_offset, height_offset, screenWidth - width_offset, screenHeight - height_offset,
-                backgroundPaint);
 
-        for (int i = 0; i < arrayList.size(); i++)
-            canvas.drawRect(arrayList.get(i).x + width_offset, arrayList.get(i).y + height_offset,
-                    arrayList.get(i).x + SIDE_LENGTH + width_offset, arrayList.get(i).y + SIDE_LENGTH + height_offset, snakePaint);
-        for (int i = 0; i < arrayList.size(); i++)
-            canvas.drawRect(arrayList.get(i).x + 5 + width_offset, arrayList.get(i).y + 5 + height_offset,
-                    arrayList.get(i).x + SIDE_LENGTH - 5 + width_offset, arrayList.get(i).y + SIDE_LENGTH - 5 + height_offset, xPaint);
-        //canvas.drawRect(targets.x + width_offset, targets.y + height_offset,
-        //        targets.x + SIDE_LENGTH + width_offset, targets.y + SIDE_LENGTH + height_offset, targetsPaint);
+        canvas.drawRect(0, 0, screenWidth, screenHeight, backgroundPaint);
 
-        canvas.drawBitmap(newbm, targets.x + width_offset, targets.y + height_offset, applePaint);
 
-    } // end method drawGameElements
+        for (Point point : arrayList) {
+            canvas.drawRect(point.x, point.y, point.x + SIDE_LENGTH, point.y + SIDE_LENGTH, snakePaint);
+            canvas.drawRect(point.x + 5, point.y + 5, point.x + SIDE_LENGTH - 5, point.y + SIDE_LENGTH - 5, xPaint);
+        }
+        canvas.drawBitmap(newbm, targets.x, targets.y, applePaint);
+        canvas.drawText(getResources().getString(R.string.score, score), screenWidth - 250, 60, textPaint);
+        canvas.drawText(getResources().getString(R.string.best, bestint), 40, 60, textPaint);
+    }
 
-    // display an AlertDialog when the game ends
+
     private void showGameOverDialog(final int messageId) {
 
-        // DialogFragment to display quiz stats and start new quiz
         final DialogFragment gameResult =
                 new DialogFragment() {
-                    // create an AlertDialog and return it
                     @Override
                     public Dialog onCreateDialog(Bundle bundle) {
-                        // create dialog displaying String resource for messageId
                         AlertDialog.Builder builder =
                                 new AlertDialog.Builder(getActivity());
                         builder.setTitle(getResources().getString(messageId));
-
-                        // display number of shots fired and total time elapsed
                         builder.setMessage(getResources().getString(
-                                R.string.results_format, score, totalElapsedTime));
+                                R.string.results_format, score, bestint));
+
+                        Memory.setInt(mContext, "BEST", bestint);
 
                         builder.setNegativeButton(R.string.back,
                                 new DialogInterface.OnClickListener() {
-                                    // called when "Reset Game" Button is pressed
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         if (mContext instanceof SnakeActivity)
                                             ((SnakeActivity) mContext).onBackPressed();
                                     }
-                                } // end anonymous inner class
+                                }
                         );
 
                         builder.setPositiveButton(R.string.reset_game,
                                 new DialogInterface.OnClickListener() {
-                                    // called when "Reset Game" Button is pressed
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialogIsDisplayed = false;
-                                        newGame(); // set up and start a new game
+                                        newGame();
                                     }
-                                } // end anonymous inner class
-                        ); // end call to setPositiveButton
+                                }
+                        );
+                        return builder.create();
+                    }
+                };
 
-                        return builder.create(); // return the AlertDialog
-                    } // end method onCreateDialog
-                }; // end DialogFragment anonymous inner class
 
-        // in GUI thread, use FragmentManager to display the DialogFragment
         activity.runOnUiThread(
                 new Runnable() {
                     public void run() {
                         dialogIsDisplayed = true;
-                        gameResult.setCancelable(false); // modal dialog
+                        gameResult.setCancelable(false);
                         gameResult.show(activity.getFragmentManager(), "results");
                     }
-                } // end Runnable
-        ); // end call to runOnUiThread
-    } // end method showGameOverDialog
+                }
+        );
+    }
 
 
-    // called when surface changes size
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format,
                                int width, int height) {
     }
 
-    // called when surface is first created
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         if (!dialogIsDisplayed) {
-            cannonThread = new CannonThread(holder); // create thread
-            cannonThread.setRunning(true); // start game running
-            cannonThread.start(); // start the game loop thread
+            cannonThread = new CannonThread(holder);
+            cannonThread.setRunning(true);
+            cannonThread.start();
         }
     }
 
-    // called when the surface is destroyed
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        // ensure that thread terminates properly
         boolean retry = true;
-        cannonThread.setRunning(false); // terminate cannonThread
-
+        cannonThread.setRunning(false);
         while (retry) {
             try {
-                cannonThread.join(); // wait for cannonThread to finish
+                cannonThread.join();
                 retry = false;
             } catch (InterruptedException e) {
                 Log.e(TAG, "Thread interrupted", e);
             }
         }
-    } // end method surfaceDestroyed
+    }
 
-    // called when the user touches the screen in this Activity
+
     @Override
     public boolean onTouchEvent(@NonNull MotionEvent e) {
         return myGestureListener.getDetector().onTouchEvent(e);
-    } // end method onTouchEvent
+    }
 
-    // Thread subclass to control the game loop
     private class CannonThread extends Thread {
-        private final SurfaceHolder surfaceHolder; // for manipulating canvas
-        private boolean threadIsRunning = true; // running by default
+        private final SurfaceHolder surfaceHolder;
+        private boolean threadIsRunning = true;
 
-        // initializes the surface holder
         public CannonThread(SurfaceHolder holder) {
             surfaceHolder = holder;
             setName("CannonThread");
         }
 
-        // changes running state
         public void setRunning(boolean running) {
             threadIsRunning = running;
         }
 
-        // controls the game loop
         @Override
         public void run() {
-            Canvas canvas = null; // used for drawing
+            Canvas canvas = null;
             long previousFrameTime = System.currentTimeMillis();
 
             while (threadIsRunning) {
                 try {
-                    // get Canvas for exclusive drawing from this thread
                     canvas = surfaceHolder.lockCanvas();
 
-                    // lock the surfaceHolder for drawing
                     synchronized (surfaceHolder) {
                         long currentTime = System.currentTimeMillis();
                         double elapsedTimeMS = currentTime - previousFrameTime;
                         totalElapsedTime += elapsedTimeMS / 1000.0;
-                        updatePositions(elapsedTimeMS); // update game state
+                        updatePositions(elapsedTimeMS);
                         if (!snakeover) {
-                            drawGameElements(canvas); // draw using the canvas
+                            drawGameElements(canvas);
                         }
-                        previousFrameTime = currentTime; // update previous time
+                        previousFrameTime = currentTime;
                     }
                 } finally {
-                    // display canvas's contents on the CannonView
-                    // and enable other threads to use the Canvas
                     if (canvas != null)
                         surfaceHolder.unlockCanvasAndPost(canvas);
                 }
-            } // end while
-        } // end method run
-    } // end nested class CannonThread
+            }
+        }
+    }
 
     public static class MyGestureListener extends GestureDetector.SimpleOnGestureListener implements OnTouchListener {
         Context context;
