@@ -1,17 +1,32 @@
 <resources>
-    <string name="app_name">SnakeGame</string>
-    <string name="title_name">吃不飽的蛇</string>
-    <string name="start">Start</string>
-    <string name="scoreB">Score</string>
-    <string name="level">level</string>
+	<string name="app_name">SnakeGame</string>
+	<!-- MainActivity -->
+	<string name="title_name">吃不飽的蛇</string>
+	<string name="snakeView">蛇</string>
+	<string name="start">Start</string>
+	<string name="score_board">Score Board</string>
+	<string name="tv_level">level</string>
+	<string name="tv_mode">mode</string>
+	<!-- ScoreBoardActivity -->
+	<string name="tv_name">Name</string>
+	<string name="tv_score">Score</string>
+	<string name="tv_updateTime">UpdateTime</string>
 
-    <string name="best">Best:%d</string>
-    <string name="score">Score:%d</string>
-    <string name="action_settings">Settings</string>
-    <string name="results_format">Score: %1$d\nBest:  %2$d</string>
-    <string name="reset_game">Reset Game</string>
-    <string name="back">Back</string>
-    <string name="win">You win!</string>
-    <string name="lose">You lose!</string>
-    <string name="time_remaining_format">Time remaining: %.1f seconds</string>
+	<!-- SnakeView -->
+	<string name="best">Best:%d</string>
+	<string name="score">Score:%d</string>
+	<string name="action_settings">Settings</string>
+	<!-- GameResult Dialog -->
+	<string name="results_format">Score: %1$d\nBest:  %2$d</string>
+	<string name="btn_reset_game">Reset Game</string>
+	<string name="btn_back">Back</string>
+	<string name="et_input_name">Input your name</string>
+	<string name="win">You win!</string>
+	<string name="lose">You lose!</string>
+
+	<string name="time_remaining_format">Time remaining: %.1f seconds</string>
+
+	<!-- TODO: Remove or change this placeholder text -->
+	<string name="hello_blank_fragment">Hello blank fragment</string>
+	<string name="title_activity_score_board">ScoreBoardActivity</string>
 </resources>

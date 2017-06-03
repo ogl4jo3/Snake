@@ -1,84 +1,105 @@
 package com.example.ogl4j.snakegame;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Toast;
+
+import com.example.ogl4j.snakegame.scoreboard.ScoreBoardActivity;
+import com.example.ogl4j.snakegame.game.SnakeActivity;
+import com.example.ogl4j.utility.sharedpreferences.SharedPreferencesTag;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button startButton;
+	public static final String NORMAL_MODE = "normal";
+	public static final String WITHOUT_WALL_MODE = "withoutWall";
 
-    private Spinner spinner;
-    private String[] list = {"1", "2", "3", "4", "5"};
-    private ArrayAdapter<String> listAdapter;
-    private Context mContext;
+	//private Context mContext;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+	private Button startButton;
+	private Button scoreBoardButton;
+	private Spinner spLevel;
+	private String[] levelArray = {"1", "2", "3", "4", "5"};
+	private Spinner spMode;
+	private String[] modeArray = {NORMAL_MODE, WITHOUT_WALL_MODE};
 
-        startButton = (Button) findViewById(R.id.startButton);
-        startButton.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, SnakeActivity.class);
-                i.putExtra("level", list[spinner.getSelectedItemPosition()]);
-                startActivity(i);
-            }
-        });
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		//mContext = this.getApplicationContext();
 
-        mContext = this.getApplicationContext();
-        spinner = (Spinner) findViewById(R.id.spinner);
-        listAdapter = new ArrayAdapter<>(this, R.layout.myspinner, list);
-        listAdapter.setDropDownViewResource(R.layout.myspinner);
-        spinner.setAdapter(listAdapter);
+		startButton = (Button) findViewById(R.id.startButton);
+		startButton.setOnClickListener(new Button.OnClickListener() {
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                Toast.makeText(mContext, "level " + list[position], Toast.LENGTH_SHORT).show();
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(MainActivity.this, SnakeActivity.class);
+				startActivity(i);
+			}
+		});
 
-            }
+		scoreBoardButton = (Button) findViewById(R.id.scoreBoardButton);
+		scoreBoardButton.setOnClickListener(new Button.OnClickListener() {
 
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
-            }
-        });
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(MainActivity.this, ScoreBoardActivity.class);
+				startActivity(i);
+			}
+		});
 
+		spMode = (Spinner) findViewById(R.id.sp_mode);
+		ArrayAdapter<String> modeAdapter = new ArrayAdapter<>(this, R.layout.myspinner, modeArray);
+		spMode.setAdapter(modeAdapter);
+		/*spLevel.setSelection(Integer.parseInt(
+				getSharedPreferences(SharedPreferencesTag.preferenceData, 0)
+						.getString(SharedPreferencesTag.preferenceMode, "1")) - 1);*/
 
-    }
+		spMode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
+				//Toast.makeText(mContext, "level " + levelArray[position], Toast.LENGTH_SHORT).show();
+				getSharedPreferences(SharedPreferencesTag.preferenceData, 0).edit()
+						.putString(SharedPreferencesTag.preferenceMode, modeArray[position])
+						.apply();
+			}
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+			}
+		});
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+		spLevel = (Spinner) findViewById(R.id.sp_level);
+		ArrayAdapter<String> levelAdapter =
+				new ArrayAdapter<>(this, R.layout.myspinner, levelArray);
+		//levelAdapter.setDropDownViewResource(R.layout.myspinner);
+		spLevel.setAdapter(levelAdapter);
+		spLevel.setSelection(Integer.parseInt(
+				getSharedPreferences(SharedPreferencesTag.preferenceData, 0)
+						.getString(SharedPreferencesTag.preferenceLevel, "1")) - 1);
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+		spLevel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
-        return super.onOptionsItemSelected(item);
-    }
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
+				//Toast.makeText(mContext, "level " + levelArray[position], Toast.LENGTH_SHORT).show();
+				getSharedPreferences(SharedPreferencesTag.preferenceData, 0).edit()
+						.putString(SharedPreferencesTag.preferenceLevel, levelArray[position])
+						.apply();
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+			}
+		});
+
+	}
 }

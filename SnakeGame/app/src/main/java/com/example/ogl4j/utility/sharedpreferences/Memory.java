@@ -1,4 +1,4 @@
-package com.example.ogl4j.snakegame;
+package com.example.ogl4j.utility.sharedpreferences;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical"
+	android:padding="12dp"
+	tools:context="com.example.ogl4j.snakegame.scoreboard.ScoreBoardActivity">
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="8dp"
+		android:layout_marginRight="8dp"
+		android:orientation="horizontal">
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center"
+			android:text="@string/tv_mode"
+			android:textAllCaps="false"
+			android:textColor="#AE000000"
+			android:textSize="@dimen/txt_main_size"/>
+
+		<Spinner
+			android:id="@+id/sp_mode"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1.5"
+			android:gravity="center"/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center"
+			android:text="@string/tv_level"
+			android:textAllCaps="false"
+			android:textColor="#AE000000"
+			android:textSize="@dimen/txt_main_size"/>
+
+		<Spinner
+			android:id="@+id/sp_level"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="0.8"
+			android:gravity="center"/>
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:padding="8dp">
+
+		<TextView
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1.2"
+			android:gravity="center_vertical|end"
+			android:text="@string/tv_mode"/>
+
+		<TextView
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center_vertical|end"
+			android:text="@string/tv_level"/>
+
+		<TextView
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1.5"
+			android:gravity="center_vertical|end"
+			android:text="@string/tv_name"/>
+
+		<TextView
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center_vertical|end"
+			android:text="@string/tv_score"/>
+
+		<TextView
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="2"
+			android:gravity="center"
+			android:text="@string/tv_updateTime"/>
+	</LinearLayout>
+
+	<ListView
+		android:id="@+id/lv_scoreBoard"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="8dp"/>
+
+</LinearLayout>

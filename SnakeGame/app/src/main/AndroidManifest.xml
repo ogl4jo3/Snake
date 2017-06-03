@@ -1,26 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.ogl4j.snakegame">
+<manifest package="com.example.ogl4j.snakegame"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <application
-        android:allowBackup="true"
-        android:icon="@drawable/snake"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme">
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+	<application
+		android:allowBackup="true"
+		android:icon="@drawable/snake"
+		android:label="@string/app_name"
+		android:theme="@style/AppTheme">
+		<activity
+			android:name=".MainActivity"
+			android:label="@string/app_name"
+			android:screenOrientation="portrait">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".SnakeActivity"
-            android:label="SnakeActivity"
-            android:screenOrientation="portrait"/>
-    </application>
+				<category android:name="android.intent.category.LAUNCHER"/>
+			</intent-filter>
+		</activity>
+		<activity
+			android:name=".game.SnakeActivity"
+			android:label="SnakeActivity"
+			android:screenOrientation="portrait"/>
+		<activity
+			android:name=".scoreboard.ScoreBoardActivity"
+			android:label="@string/title_activity_score_board"
+			android:theme="@style/AppTheme">
+		</activity>
+	</application>
 
 </manifest>

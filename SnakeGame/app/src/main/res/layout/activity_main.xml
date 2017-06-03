@@ -1,88 +1,116 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center"
+              android:orientation="vertical"
+              android:paddingBottom="@dimen/activity_vertical_margin"
+              android:paddingLeft="@dimen/activity_horizontal_margin"
+              android:paddingRight="@dimen/activity_horizontal_margin"
+              android:paddingTop="@dimen/activity_vertical_margin"
+              tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/title_name"
-        android:textSize="@dimen/title_size"
-        android:textStyle="bold" />
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center_horizontal"
+		android:text="@string/title_name"
+		android:textSize="@dimen/txt_title_size"
+		android:textStyle="bold"/>
 
-    <ImageView
-        android:id="@+id/snakeView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:adjustViewBounds="true"
-        android:src="@drawable/snake" />
+	<ImageView
+		android:id="@+id/snakeView"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center_horizontal"
+		android:layout_marginBottom="16dp"
+		android:layout_marginLeft="16dp"
+		android:layout_marginRight="16dp"
+		android:layout_marginTop="16dp"
+		android:adjustViewBounds="true"
+		android:contentDescription="@string/snakeView"
+		android:src="@drawable/snake"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/button_horizontal_margin"
-        android:layout_marginRight="@dimen/button_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:gravity="center"
-        android:orientation="horizontal">
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="20dp"
+		android:layout_marginRight="20dp"
+		android:layout_marginTop="16dp"
+		android:gravity="center_vertical"
+		android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/level"
-            android:textAllCaps="false"
-            android:textColor="#000000"
-            android:textSize="@dimen/main_size" />
+		<TextView
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center"
+			android:text="@string/tv_mode"
+			android:textAllCaps="false"
+			android:textColor="#000"
+			android:textSize="@dimen/txt_main_size"/>
 
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center" />
-    </LinearLayout>
+		<Spinner
+			android:id="@+id/sp_mode"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1.5"
+			android:gravity="center"/>
+	</LinearLayout>
 
-    <Button
-        android:id="@+id/startButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="@dimen/button_horizontal_margin"
-        android:layout_marginRight="@dimen/button_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:gravity="center"
-        android:text="@string/start"
-        android:textAllCaps="false"
-        android:textSize="@dimen/main_size" />
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="20dp"
+		android:layout_marginRight="20dp"
+		android:layout_marginTop="16dp"
+		android:gravity="center_vertical"
+		android:orientation="horizontal">
 
-    <!--<Button-->
-        <!--android:id="@+id/scoreButton"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="center_horizontal"-->
-        <!--android:layout_marginLeft="@dimen/button_horizontal_margin"-->
-        <!--android:layout_marginRight="@dimen/button_horizontal_margin"-->
-        <!--android:layout_marginTop="@dimen/activity_vertical_margin"-->
-        <!--android:gravity="center"-->
-        <!--android:text="@string/scoreB"-->
-        <!--android:textAllCaps="false"-->
-        <!--android:textSize="@dimen/main_size" />-->
+		<TextView
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center"
+			android:text="@string/tv_level"
+			android:textAllCaps="false"
+			android:textColor="#000"
+			android:textSize="@dimen/txt_main_size"/>
+
+		<Spinner
+			android:id="@+id/sp_level"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1.5"
+			android:gravity="center"/>
+	</LinearLayout>
+
+
+	<Button
+		android:id="@+id/startButton"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center_horizontal"
+		android:layout_marginLeft="@dimen/button_horizontal_margin"
+		android:layout_marginRight="@dimen/button_horizontal_margin"
+		android:layout_marginTop="12dp"
+		android:gravity="center"
+		android:text="@string/start"
+		android:textAllCaps="false"
+		android:textSize="@dimen/txt_main_size"/>
+
+	<Button
+		android:id="@+id/scoreBoardButton"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center_horizontal"
+		android:layout_marginLeft="@dimen/button_horizontal_margin"
+		android:layout_marginRight="@dimen/button_horizontal_margin"
+		android:layout_marginTop="12dp"
+		android:gravity="center"
+		android:text="@string/score_board"
+		android:textAllCaps="false"
+		android:textSize="@dimen/txt_main_size"/>
 
 
 </LinearLayout>
