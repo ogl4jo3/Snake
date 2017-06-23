@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
@@ -28,9 +29,9 @@ public class ScoreBoardActivity extends AppCompatActivity {
 	private Spinner spLevel;
 	private String[] levelArray = {"ALL", "1", "2", "3", "4", "5"};
 	private Spinner spMode;
-	private String[] modeArray =
-			{"ALL", MainActivity.NORMAL_MODE, MainActivity.WITHOUT_WALL_MODE};
-	ListView scoreBoardListView;
+	private String[] modeArray = {"ALL", MainActivity.NORMAL_MODE, MainActivity.WITHOUT_WALL_MODE};
+	private ListView scoreBoardListView;
+	private CheckBox checkBox;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

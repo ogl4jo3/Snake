@@ -67,7 +67,7 @@ public class ScoreBoardDAO {
 		Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, orderBy, null);
 
 		while (cursor.moveToNext()) {
-			scoreBoardList.add(getscoreBoard(cursor));
+			scoreBoardList.add(getScoreBoard(cursor));
 		}
 
 		cursor.close();
@@ -106,7 +106,7 @@ public class ScoreBoardDAO {
 		while (cursor.moveToNext())
 
 		{
-			scoreBoardList.add(getscoreBoard(cursor));
+			scoreBoardList.add(getScoreBoard(cursor));
 		}
 
 		cursor.close();
@@ -127,7 +127,7 @@ public class ScoreBoardDAO {
 		Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, orderBy, limit);
 
 		if (cursor.moveToFirst()) {
-			bestScoreBoard = getscoreBoard(cursor);
+			bestScoreBoard = getScoreBoard(cursor);
 		}
 
 		cursor.close();
@@ -184,7 +184,7 @@ public class ScoreBoardDAO {
 	}
 
 	// 把Cursor目前的資料包裝為物件
-	public ScoreBoard getscoreBoard(Cursor cursor) {
+	private ScoreBoard getScoreBoard(Cursor cursor) {
 		// 準備回傳結果用的物件
 		ScoreBoard result = new ScoreBoard();
 

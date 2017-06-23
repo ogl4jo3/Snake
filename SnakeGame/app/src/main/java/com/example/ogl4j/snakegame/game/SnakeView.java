@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
+ * 遊戲畫面
  * Created by ogl4j on 2015/11/25.
  */
 
