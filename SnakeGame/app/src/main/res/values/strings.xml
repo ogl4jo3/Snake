@@ -1,32 +1,50 @@
 <resources>
-	<string name="app_name">SnakeGame</string>
+	<string name="app_name">吃不飽的蛇</string>
+	<!-- MainActivity Menu-->
+	<string name="action_settings">設定</string>
 	<!-- MainActivity -->
 	<string name="title_name">吃不飽的蛇</string>
 	<string name="snakeView">蛇</string>
-	<string name="start">Start</string>
-	<string name="score_board">Score Board</string>
-	<string name="tv_level">level</string>
-	<string name="tv_mode">mode</string>
+	<string name="start">開始遊戲</string>
+	<string name="score_board">記分板</string>
+	<string name="tv_level">難度</string>
+	<string name="tv_mode">模式</string>
+	<!-- 模式 -->
+	<string-array name="game_mode">
+		<item>一般模式</item>
+		<item>穿牆模式</item>
+	</string-array>
+
 	<!-- ScoreBoardActivity -->
-	<string name="tv_name">Name</string>
-	<string name="tv_score">Score</string>
-	<string name="tv_updateTime">UpdateTime</string>
+	<string name="tv_name">名稱</string>
+	<string name="tv_score">分數</string>
+	<string name="tv_updateTime">時間</string>
+	<!-- 模式 -->
+	<string-array name="score_mode">
+		<item>所有模式</item>
+		<item>一般模式</item>
+		<item>穿牆模式</item>
+	</string-array>
+	<!-- 難度 -->
+	<string-array name="score_level">
+		<item>所有難度</item>
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
+		<item>4</item>
+		<item>5</item>
+	</string-array>
 
 	<!-- SnakeView -->
-	<string name="best">Best:%d</string>
-	<string name="score">Score:%d</string>
-	<string name="action_settings">Settings</string>
+	<string name="best">最高:%d</string>
+	<string name="score">分數:%d</string>
 	<!-- GameResult Dialog -->
-	<string name="results_format">Score: %1$d\nBest:  %2$d</string>
-	<string name="btn_reset_game">Reset Game</string>
-	<string name="btn_back">Back</string>
-	<string name="et_input_name">Input your name</string>
-	<string name="win">You win!</string>
-	<string name="lose">You lose!</string>
+	<string name="results_format">最高: %1$d\n分數:  %2$d</string>
+	<string name="btn_reset_game">重新開始</string>
+	<string name="btn_back">返回</string>
+	<string name="et_input_name">輸入名稱</string>
+	<string name="lose">掛了!</string>
 
-	<string name="time_remaining_format">Time remaining: %.1f seconds</string>
-
-	<!-- TODO: Remove or change this placeholder text -->
-	<string name="hello_blank_fragment">Hello blank fragment</string>
-	<string name="title_activity_score_board">ScoreBoardActivity</string>
+	<!-- SnakeActivity -->
+	<string name="title_activity_score_board">記分板</string>
 </resources>

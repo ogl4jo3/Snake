@@ -15,8 +15,8 @@ import com.example.ogl4j.utility.sharedpreferences.SharedPreferencesTag;
 
 public class MainActivity extends AppCompatActivity {
 
-	public static final String NORMAL_MODE = "normal";
-	public static final String WITHOUT_WALL_MODE = "withoutWall";
+	public static final String NORMAL_MODE = "0";
+	public static final String WITHOUT_WALL_MODE = "1";
 
 	//private Context mContext;
 
@@ -54,11 +54,12 @@ public class MainActivity extends AppCompatActivity {
 		});
 
 		spMode = (Spinner) findViewById(R.id.sp_mode);
-		ArrayAdapter<String> modeAdapter = new ArrayAdapter<>(this, R.layout.myspinner, modeArray);
+		ArrayAdapter<CharSequence> modeAdapter =
+				ArrayAdapter.createFromResource(this, R.array.game_mode, R.layout.myspinner);
 		spMode.setAdapter(modeAdapter);
-		/*spLevel.setSelection(Integer.parseInt(
+		spMode.setSelection(Integer.parseInt(
 				getSharedPreferences(SharedPreferencesTag.preferenceData, 0)
-						.getString(SharedPreferencesTag.preferenceMode, "1")) - 1);*/
+						.getString(SharedPreferencesTag.preferenceMode, "0")));
 
 		spMode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
 				//Toast.makeText(mContext, "level " + levelArray[position], Toast.LENGTH_SHORT).show();
 				getSharedPreferences(SharedPreferencesTag.preferenceData, 0).edit()
-						.putString(SharedPreferencesTag.preferenceMode, modeArray[position])
+						.putString(SharedPreferencesTag.preferenceMode, String.valueOf(position))
 						.apply();
 			}
 

@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
@@ -31,20 +30,21 @@ public class ScoreBoardActivity extends AppCompatActivity {
 	private Spinner spMode;
 	private String[] modeArray = {"ALL", MainActivity.NORMAL_MODE, MainActivity.WITHOUT_WALL_MODE};
 	private ListView scoreBoardListView;
-	private CheckBox checkBox;
+	String[] modeResArray;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_score_board);
 		mContext = this;
+		modeResArray = getResources().getStringArray(R.array.game_mode);
 		scoreBoardListView = (ListView) findViewById(R.id.lv_scoreBoard);
 		SQLiteDatabase db = MyDBHelper.getInstance(this).getReadableDatabase();
 		List<ScoreBoard> scoreBoardList = new ScoreBoardDAO(db).getAll();
 		final List<Map<String, Object>> items = new ArrayList<>();
 		for (ScoreBoard scoreBoard : scoreBoardList) {
 			Map<String, Object> item = new HashMap<>();
-			item.put("mode", scoreBoard.getMode());
+			item.put("mode", modeResArray[Integer.valueOf(scoreBoard.getMode())]);
 			item.put("level", scoreBoard.getLevel());
 			item.put("name", scoreBoard.getName());
 			item.put("score", scoreBoard.getScore());
@@ -61,7 +61,8 @@ public class ScoreBoardActivity extends AppCompatActivity {
 		scoreBoardListView.setAdapter(simpleAdapter);
 
 		spMode = (Spinner) findViewById(R.id.sp_mode);
-		ArrayAdapter<String> modeAdapter = new ArrayAdapter<>(this, R.layout.myspinner, modeArray);
+		ArrayAdapter<CharSequence> modeAdapter =
+				ArrayAdapter.createFromResource(this, R.array.score_mode, R.layout.myspinner);
 		spMode.setAdapter(modeAdapter);
 
 		spMode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -77,7 +78,7 @@ public class ScoreBoardActivity extends AppCompatActivity {
 				items.clear();
 				for (ScoreBoard scoreBoard : scoreBoardList) {
 					Map<String, Object> item = new HashMap<>();
-					item.put("mode", scoreBoard.getMode());
+					item.put("mode", modeResArray[Integer.valueOf(scoreBoard.getMode())]);
 					item.put("level", scoreBoard.getLevel());
 					item.put("name", scoreBoard.getName());
 					item.put("score", scoreBoard.getScore());
@@ -96,8 +97,8 @@ public class ScoreBoardActivity extends AppCompatActivity {
 		});
 
 		spLevel = (Spinner) findViewById(R.id.sp_level);
-		ArrayAdapter<String> levelAdapter =
-				new ArrayAdapter<>(this, R.layout.myspinner, levelArray);
+		ArrayAdapter<CharSequence> levelAdapter =
+				ArrayAdapter.createFromResource(this, R.array.score_level, R.layout.myspinner);
 		spLevel.setAdapter(levelAdapter);
 
 		spLevel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -113,7 +114,7 @@ public class ScoreBoardActivity extends AppCompatActivity {
 				items.clear();
 				for (ScoreBoard scoreBoard : scoreBoardList) {
 					Map<String, Object> item = new HashMap<>();
-					item.put("mode", scoreBoard.getMode());
+					item.put("mode", modeResArray[Integer.valueOf(scoreBoard.getMode())]);
 					item.put("level", scoreBoard.getLevel());
 					item.put("name", scoreBoard.getName());
 					item.put("score", scoreBoard.getScore());

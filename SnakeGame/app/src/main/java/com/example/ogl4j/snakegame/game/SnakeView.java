@@ -200,8 +200,8 @@ public class SnakeView extends SurfaceView implements SurfaceHolder.Callback {
 	private void normalMode() {
 
 		if (screenWidth - arrayList.get(0).x < SIDE_LENGTH ||
-				screenHeight - arrayList.get(0).y < SIDE_LENGTH ||
-				arrayList.get(0).x < 0 || arrayList.get(0).y < 0) {
+				screenHeight - arrayList.get(0).y < SIDE_LENGTH || arrayList.get(0).x < 0 ||
+				arrayList.get(0).y < 0) {
 			gameOver = true;
 			snakeGameThread.setRunning(false);
 			showGameOverDialog(R.string.lose);
@@ -367,7 +367,7 @@ public class SnakeView extends SurfaceView implements SurfaceHolder.Callback {
 				dialogIsDisplayed = true;
 				GameResultDialogFragment newFragment = GameResultDialogFragment
 						.newInstance(getResources().getString(messageId),
-								getResources().getString(R.string.results_format, score, bestint));
+								getResources().getString(R.string.results_format, bestint, score));
 				newFragment.setOnClickListener(new GameResultDialogFragment.DialogClickListener() {
 
 					@Override
@@ -595,10 +595,7 @@ public class SnakeView extends SurfaceView implements SurfaceHolder.Callback {
 		}
 
 		public enum Direction {
-			up,
-			down,
-			left,
-			right;
+			up, down, left, right;
 
 			/**
 			 * Returns a direction given an angle.
